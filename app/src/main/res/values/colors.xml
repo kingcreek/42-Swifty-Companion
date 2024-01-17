@@ -4,4 +4,9 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="tiamant">#9FC131</color>
+    <color name="marventis">#1B5971</color>
+    <color name="ignisaria">#C2301D</color>
+    <color name="zefiria">#E39F0B</color>
 </resources>

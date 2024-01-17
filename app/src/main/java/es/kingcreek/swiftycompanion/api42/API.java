@@ -1,12 +1,15 @@
 package es.kingcreek.swiftycompanion.api42;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
 import java.io.IOException;
 
+import es.kingcreek.swiftycompanion.activities.WebViewActivity;
 import es.kingcreek.swiftycompanion.api42.client.RetrofitClient;
 import es.kingcreek.swiftycompanion.api42.interfaces.OAuthAPI;
 import es.kingcreek.swiftycompanion.api42.interfaces.OnLoginListener;
@@ -55,6 +58,7 @@ public class API {
         call.enqueue(new Callback<AccessTokenResponse>() {
             @Override
             public void onResponse(Call<AccessTokenResponse> call, Response<AccessTokenResponse> response) {
+                Log.e(TAG, "login response: " + response.code());
                 if (response.isSuccessful()) {
                     AccessTokenResponse tokenResponse = response.body();
                     if (tokenResponse != null) {
@@ -124,10 +128,23 @@ public class API {
         });
     }
 
+    public void requestAutorizationCode(Activity activity)
+    {
+        Intent intent = new Intent(activity, WebViewActivity.class);
+        activity.startActivityForResult(intent, Constants.WEBVIEW_RESULT);
+    }
+
     // Method to check if the app have access token
+    /*
     public boolean haveAutorizationCode() {
         // Check if the access token is stored in SharedPreferences
         return  preferences.getAutorizationCode() != null;
+    }
+     */
+
+    public boolean haveAccessCode() {
+        // Check if the access token is stored in SharedPreferences
+        return  preferences.getAccessToken() != null;
     }
 
 }
