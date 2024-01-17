@@ -1,4 +1,4 @@
-package es.kingcreek.swiftycompanion.api42;
+package es.kingcreek.swiftycompanion.api42.responses;
 
 import com.google.gson.annotations.SerializedName;
 

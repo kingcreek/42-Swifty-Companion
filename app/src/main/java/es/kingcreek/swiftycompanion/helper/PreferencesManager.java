@@ -7,6 +7,7 @@ public class PreferencesManager {
 
     private static final String PREF_NAME = "MyAppPreferences";
     private static final String ACCESS_TOKEN_KEY = "access_token";
+    private static final String AUTORIZATION_CODE_KEY = "autorization_code";
 
     private static PreferencesManager instance;
     private final SharedPreferences preferences;
@@ -22,11 +23,16 @@ public class PreferencesManager {
         return instance;
     }
 
-    // Métodos para operaciones con preferencias
-    public void saveAccessToken(String accessToken) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(ACCESS_TOKEN_KEY, accessToken);
-        editor.apply();
+    public void setAutorizationCode(String accessToken) {
+        preferences.edit().putString(AUTORIZATION_CODE_KEY, accessToken).apply();
+    }
+
+    public String getAutorizationCode() {
+        return preferences.getString(AUTORIZATION_CODE_KEY, null);
+    }
+
+    public void setAccessToken(String accessToken) {
+        preferences.edit().putString(ACCESS_TOKEN_KEY, accessToken).apply();
     }
 
     public String getAccessToken() {

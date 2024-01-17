@@ -49,7 +49,6 @@ public class WebViewActivity extends AppCompatActivity {
                 // Set the result and finish the activity
                 setResult(RESULT_OK, intent);
                 finish();
-                return true;
             }
 
             // Load the URL in the WebView

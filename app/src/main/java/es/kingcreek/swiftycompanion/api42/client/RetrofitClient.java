@@ -1,4 +1,4 @@
-package es.kingcreek.swiftycompanion.api42;
+package es.kingcreek.swiftycompanion.api42.client;
 
 import es.kingcreek.swiftycompanion.constants.Constants;
 import retrofit2.Retrofit;
