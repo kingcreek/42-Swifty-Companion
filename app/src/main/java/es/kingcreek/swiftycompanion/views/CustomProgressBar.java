@@ -14,7 +14,6 @@ public class CustomProgressBar extends View {
     private int maxProgress = 100;
     private int barColor = Color.BLUE;
     private String centerText = "";
-
     private Paint paint;
 
     public CustomProgressBar(Context context) {

@@ -8,13 +8,16 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.List;
 
 import es.kingcreek.swiftycompanion.activities.WebViewActivity;
 import es.kingcreek.swiftycompanion.api42.client.RetrofitClient;
 import es.kingcreek.swiftycompanion.api42.interfaces.OAuthAPI;
+import es.kingcreek.swiftycompanion.api42.interfaces.OnCoalitionListener;
 import es.kingcreek.swiftycompanion.api42.interfaces.OnLoginListener;
 import es.kingcreek.swiftycompanion.api42.interfaces.OnUserInfoListener;
 import es.kingcreek.swiftycompanion.api42.responses.AccessTokenResponse;
+import es.kingcreek.swiftycompanion.api42.responses.CoalitionsResponse;
 import es.kingcreek.swiftycompanion.api42.responses.UserInfoResponse;
 import es.kingcreek.swiftycompanion.constants.Constants;
 import es.kingcreek.swiftycompanion.helper.PreferencesManager;
@@ -128,22 +131,50 @@ public class API {
         });
     }
 
+    public void getCoalitions(String accessToken, String user_id, final OnCoalitionListener listener) {
+        Call<List<CoalitionsResponse>> call = oAuthAPI.getCoalitions("Bearer " + accessToken, user_id);
+
+        call.enqueue(new Callback<List<CoalitionsResponse>>() {
+            @Override
+            public void onResponse(Call<List<CoalitionsResponse>> call, Response<List<CoalitionsResponse>> response) {
+                if (response.isSuccessful()) {
+                    List<CoalitionsResponse> coalitionsResponse = response.body();
+                    if (coalitionsResponse != null) {
+                        // Notificar al listener que la obtención de información fue exitosa
+                        if (listener != null) {
+                            listener.onCoalitionInfoSuccess(coalitionsResponse);
+                        }
+                    } else {
+                        // Manejar respuesta nula
+                        if (listener != null) {
+                            listener.onCoalitionInfoFailure("getUserInfo failed with null response");
+                        }
+                    }
+                } else {
+                    // Manejar respuesta no exitosa
+                    if (listener != null) {
+                        listener.onCoalitionInfoFailure("getUserInfo failed with response code: " + response.code());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CoalitionsResponse>> call, Throwable t) {
+                // Manejar error de red
+                if (listener != null) {
+                    listener.onCoalitionInfoFailure("getUserInfo failed with network error: " + t.getMessage());
+                }
+            }
+        });
+    }
+
     public void requestAutorizationCode(Activity activity)
     {
         Intent intent = new Intent(activity, WebViewActivity.class);
         activity.startActivityForResult(intent, Constants.WEBVIEW_RESULT);
     }
 
-    // Method to check if the app have access token
-    /*
-    public boolean haveAutorizationCode() {
-        // Check if the access token is stored in SharedPreferences
-        return  preferences.getAutorizationCode() != null;
-    }
-     */
-
     public boolean haveAccessCode() {
-        // Check if the access token is stored in SharedPreferences
         return  preferences.getAccessToken() != null;
     }
 

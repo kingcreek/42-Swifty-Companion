@@ -178,7 +178,7 @@ public class UserInfoResponse {
         private double level;
 
         @SerializedName("skills")
-        private List<Object> skills;
+        private List<Skills> skills;
 
         @SerializedName("cursus_id")
         private int cursusId;
@@ -212,6 +212,29 @@ public class UserInfoResponse {
 
             public String getUrl() {
                 return url;
+            }
+        }
+
+        public static class Skills {
+            @SerializedName("id")
+            private int id;
+
+            @SerializedName("name")
+            private String name;
+
+            @SerializedName("level")
+            private double level;
+
+            public int getId() {
+                return id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public double getLevel() {
+                return level;
             }
         }
 
@@ -265,7 +288,7 @@ public class UserInfoResponse {
             return level;
         }
 
-        public List<Object> getSkills() {
+        public List<Skills> getSkills() {
             return skills;
         }
 

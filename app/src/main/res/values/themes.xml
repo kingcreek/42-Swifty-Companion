@@ -1,9 +1,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.SwiftyCompanion" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/tiamant</item>
     </style>
 
     <style name="Theme.SwiftyCompanion" parent="Base.Theme.SwiftyCompanion" />
+
+    <style name="Theme.SwiftyCompanion.tiamant" parent="Base.Theme.SwiftyCompanion">
+        <item name="colorPrimary">@color/tiamant</item>
+    </style>
+
+    <style name="Theme.SwiftyCompanion.marventis" parent="Base.Theme.SwiftyCompanion">
+        <item name="colorPrimary">@color/marventis</item>
+    </style>
+
+    <style name="Theme.SwiftyCompanion.ignisaria" parent="Base.Theme.SwiftyCompanion">
+        <item name="colorPrimary">@color/ignisaria</item>
+    </style>
+
+    <style name="Theme.SwiftyCompanion.zefiria" parent="Base.Theme.SwiftyCompanion">
+        <item name="colorPrimary">@color/zefiria</item>
+    </style>
+
 </resources>

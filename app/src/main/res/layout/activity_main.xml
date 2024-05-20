@@ -12,17 +12,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
-                android:id="@+id/profileImageView"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax" />
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax" >
+
+                <!-- Imagen principal -->
+                <ImageView
+                    android:id="@+id/profileImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:scaleType="centerCrop"/>
+
+                <!-- Imagen triangular -->
+                <ImageView
+                    android:id="@+id/coalitionImage"
+                    android:layout_width="73dp"
+                    android:layout_height="114dp"
+                    android:layout_gravity="start|top"
+                    android:background="@drawable/coalition_shape"
+                    android:src="@drawable/tiamant" />
+
+            </FrameLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -58,9 +75,10 @@
                     android:id="@+id/loginTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Login: YourLogin"
+                    android:text="loginTextView"
                     android:textSize="18sp"
-                    android:padding="16dp"/>
+                    android:padding="16dp"
+                    android:textStyle="bold"/>
             </androidx.cardview.widget.CardView>
 
             <es.kingcreek.swiftycompanion.views.CustomProgressBar
@@ -71,6 +89,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/loginCardView" />
+
 
             <!-- GridLayout -->
             <GridLayout
@@ -91,11 +110,11 @@
                     android:layout_columnWeight="1">
 
                     <TextView
-                        android:id="@+id/emailTextView"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/altariansTextView"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="Email: your.email@example.com" />
+                        android:text="altariansTextView"
+                        android:padding="16dp" />
                 </androidx.cardview.widget.CardView>
 
                 <!-- Mobile -->
@@ -105,11 +124,11 @@
                     android:layout_columnWeight="1">
 
                     <TextView
-                        android:id="@+id/mobileTextView"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/pointsTextView"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="Mobile: Your Mobile Number" />
+                        android:text="pointsTextView"
+                        android:padding="16dp" />
                 </androidx.cardview.widget.CardView>
 
                 <!-- Level -->
@@ -120,10 +139,10 @@
 
                     <TextView
                         android:id="@+id/levelTextView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="Level: Your Level" />
+                        android:text="levelTextView"
+                        android:padding="16dp" />
                 </androidx.cardview.widget.CardView>
 
                 <!-- Location -->
@@ -134,40 +153,35 @@
 
                     <TextView
                         android:id="@+id/locationTextView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="Location: Your Location" />
-                </androidx.cardview.widget.CardView>
-
-                <!-- Wallet -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1">
-
-                    <TextView
-                        android:id="@+id/walletTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="Wallet: Your Wallet" />
-                </androidx.cardview.widget.CardView>
-
-                <!-- Evaluations -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnSpan="2">
-
-                    <TextView
-                        android:id="@+id/evaluationsTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="Evaluations: Your Evaluations" />
+                        android:text="locationTextView"
+                        android:padding="16dp" />
                 </androidx.cardview.widget.CardView>
             </GridLayout>
+
+            <Button
+                android:id="@+id/seeProjectsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="See projects"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/seeProjectsButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:0.8" />
+
+
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
