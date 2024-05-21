@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
     PieChart pieChart;
     Button seeProjectsButton;
 
-    ArrayList<Object> projects = new ArrayList<>();
+    ArrayList<UserInfoResponse.Projects> projects = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
             startActivity(intent);
             finish();
         } else {
+            Log.e(TAG, preferences.getAccessToken());
             api.getUserInfo(preferences.getAccessToken(), this);
         }
 

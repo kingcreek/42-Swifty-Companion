@@ -3,6 +3,8 @@ package es.kingcreek.swiftycompanion.api42.responses;
 import com.google.gson.annotations.SerializedName;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.List;
 
 public class UserInfoResponse {
@@ -80,7 +82,35 @@ public class UserInfoResponse {
     private List<CursusUser> cursusUsers;
 
     @SerializedName("projects_users")
-    private List<Object> projectsUsers;
+    private List<Projects> projectsUsers;
+
+    public static class Projects implements Serializable {
+        @SerializedName("status")
+        private String status;
+
+        @SerializedName("final_mark")
+        private String final_mark;
+
+        @SerializedName("project")
+        private Project project;
+        public static class Project implements Serializable{
+            @SerializedName("name")
+            private String name;
+            public String getName() {
+                return name;
+            }
+        }
+
+        public String getStatus() {
+            return status;
+        }
+        public String getFinal_mark() {
+            return final_mark;
+        }
+        public Project getProject() {
+            return project;
+        }
+    }
 
     @SerializedName("languages_users")
     private List<LanguagesUser> languagesUsers;
@@ -648,7 +678,7 @@ public class UserInfoResponse {
         return cursusUsers;
     }
 
-    public List<Object> getProjectsUsers() {
+    public List<Projects> getProjectsUsers() {
         return projectsUsers;
     }
 
