@@ -152,10 +152,20 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
         pieChart.setData(pieData);
         pieChart.getDescription().setEnabled(false);
 
+        Legend l = pieChart.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setDrawInside(false);
+        l.setXEntrySpace(7f);
+        l.setYEntrySpace(0f);
+        l.setYOffset(0f);
+        /*
         Legend legend = pieChart.getLegend();
         legend.setOrientation(Legend.LegendOrientation.VERTICAL);
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+         */
 
         pieChart.invalidate();
 
