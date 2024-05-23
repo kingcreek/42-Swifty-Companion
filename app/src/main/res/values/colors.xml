@@ -9,4 +9,8 @@
     <color name="marventis">#1B5971</color>
     <color name="ignisaria">#C2301D</color>
     <color name="zefiria">#E39F0B</color>
+
+    <color name="done">@android:color/holo_green_light</color>
+    <color name="progress">@android:color/holo_blue_bright</color>
+    <color name="failed">@android:color/holo_red_light</color>
 </resources>

@@ -36,6 +36,7 @@ import es.kingcreek.swiftycompanion.api42.interfaces.OnUserInfoListener;
 import es.kingcreek.swiftycompanion.api42.responses.CoalitionsResponse;
 import es.kingcreek.swiftycompanion.api42.responses.UserInfoResponse;
 import es.kingcreek.swiftycompanion.constants.Constants;
+import es.kingcreek.swiftycompanion.helper.ColorUtils;
 import es.kingcreek.swiftycompanion.helper.HelperFunctions;
 import es.kingcreek.swiftycompanion.helper.PreferencesManager;
 import es.kingcreek.swiftycompanion.views.CustomProgressBar;
@@ -49,9 +50,9 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
     // Views
     ImageView profileImageView, coalitionImage;
     CustomProgressBar customProgressBar;
-    TextView loginTextView, altariansTextView, pointsTextView;
+    TextView loginTextView, altariansTextView, pointsTextView, emailTextview, locationTextView;
     PieChart pieChart;
-    Button seeProjectsButton;
+    Button seeProjectsButton, setExpiredToken;
 
     ArrayList<UserInfoResponse.Projects> projects = new ArrayList<>();
 
@@ -70,12 +71,14 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
         loginTextView       = findViewById(R.id.loginTextView);
         altariansTextView   = findViewById(R.id.altariansTextView);
         pointsTextView      = findViewById(R.id.pointsTextView);
+        emailTextview       = findViewById(R.id.emailTextview);
+        locationTextView    = findViewById(R.id.locationTextView);
         pieChart            = findViewById(R.id.pieChart);
         seeProjectsButton   = findViewById(R.id.seeProjectsButton);
+        setExpiredToken     = findViewById(R.id.setExpiredToken);
 
         //default views
         coalitionImage.setVisibility(View.GONE);
-
 
         // Check if app have access token
         if(!api.haveAccessCode())
@@ -94,6 +97,14 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
                 i.putExtra("Projects", projects);
                 startActivity(i);
             }
+        });
+
+        setExpiredToken.setOnClickListener(view -> {
+            // Expired token: bc6c035becef935eaecdc03e63a1f3fa51dec3649b899351f89bfb42be2694b9
+            // During evaluation can set this token to prove bonus part; refresh expired token
+            preferences.setAccessToken("bc6c035becef935eaecdc03e63a1f3fa51dec3649b899351f89bfb42be2694b9");
+            finish();
+            //Log.e(TAG, preferences.getAccessToken());
         });
 
     }
@@ -121,51 +132,42 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
     {
         // First of all, request coallitions
         api.getCoalitions(preferences.getAccessToken(), String.valueOf(user.getUserId()), this);
+
         // Load image
         Glide.with(this).load(user.getImage().getLink()).into(profileImageView);
 
         // get 42 cursus
         UserInfoResponse.CursusUser cursus = get42Cursus(user.getCursusUsers(), "42cursus");
+
         //Progress bar
         customProgressBar.setCenterText(HelperFunctions.getLevelFormat(cursus.getLevel()));
         customProgressBar.setProgress(HelperFunctions.getLvlPercent(cursus.getLevel()));
         customProgressBar.setBarColor(getColor(R.color.tiamant));
+
         //chart
         List<PieEntry> entries = new ArrayList<>();
-
         for (int i = 0; i < cursus.getSkills().size(); i++) {
             entries.add(new PieEntry((float) cursus.getSkills().get(i).getLevel(), cursus.getSkills().get(i).getName()));
         }
-
         PieDataSet dataSet = new PieDataSet(entries, "Skills");
-        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        dataSet.setValueTextColor(Color.BLACK);
-        dataSet.setValueTextSize(12f);
+
+        List<Integer> colors = ColorUtils.generateColorPalette(entries.size(), 0, 360, 0.8f, 0.6f);
+
+        dataSet.setColors(colors);
+        //dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
         PieData pieData = new PieData(dataSet);
         pieData.setValueTextColor(Color.BLACK);
         pieData.setValueTextSize(14f);
 
-        Description description = pieChart.getDescription();
-        description.setTextColor(Color.BLACK);
-
         pieChart.setData(pieData);
+        pieChart.setEntryLabelColor(Color.BLACK);
         pieChart.getDescription().setEnabled(false);
 
-        Legend l = pieChart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(0f);
-        l.setYOffset(0f);
-        /*
+
+
         Legend legend = pieChart.getLegend();
-        legend.setOrientation(Legend.LegendOrientation.VERTICAL);
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-         */
+        legend.setEnabled(false);
 
         pieChart.invalidate();
 
@@ -173,6 +175,13 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
         loginTextView.setText(user.getLogin());
         altariansTextView.setText(user.getWallet() + " ₳");
         pointsTextView.setText(user.getCorrectionPoint() + " eval. points");
+        emailTextview.setText(user.getEmail());
+        if(user.getLocation() == null){
+            locationTextView.setText("No Location");
+        } else {
+            locationTextView.setText(user.getLocation());
+        }
+        emailTextview.setSelected(true);
 
         projects.clear();
         projects.addAll(user.getProjectsUsers());

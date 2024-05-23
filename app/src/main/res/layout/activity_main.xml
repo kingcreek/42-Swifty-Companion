@@ -131,18 +131,25 @@
                         android:padding="16dp" />
                 </androidx.cardview.widget.CardView>
 
-                <!-- Level -->
+                <!-- Email -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1">
 
                     <TextView
-                        android:id="@+id/levelTextView"
+                        android:id="@+id/emailTextview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="levelTextView"
-                        android:padding="16dp" />
+                        android:padding="16dp"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:scrollHorizontally="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:freezesText="true" />
                 </androidx.cardview.widget.CardView>
 
                 <!-- Location -->
@@ -161,13 +168,29 @@
             </GridLayout>
 
             <Button
+                android:id="@+id/setExpiredToken"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:text="Set Expired Token"
+                app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineCenter" />
+
+            <Button
                 android:id="@+id/seeProjectsButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="See projects"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+                android:layout_marginStart="24dp"
+                android:text="See Projects"
+                app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+                app:layout_constraintStart_toEndOf="@+id/guidelineCenter" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pieChart"

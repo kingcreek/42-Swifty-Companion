@@ -2,6 +2,9 @@ package es.kingcreek.swiftycompanion.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,8 +45,22 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
         UserInfoResponse.Projects project = projects.get(position);
 
         holder.projectName.setText(project.getProject().getName());
-        holder.projectStatus.setText(project.getStatus());
-        holder.projectGrade.setText(project.getFinal_mark());
+
+        holder.projectStatus.setText(project.getStatus().replace("_", " "));
+
+        GradientDrawable background = (GradientDrawable) ContextCompat.getDrawable(context, R.drawable.circle_background);
+        if (project.getValidated() == null) {
+            holder.projectGrade.setText("--");
+            background.setColor(ContextCompat.getColor(context, R.color.progress));
+        } else {
+            holder.projectGrade.setText(project.getFinal_mark());
+            if (project.getValidated().equals("true"))
+                background.setColor(ContextCompat.getColor(context, R.color.done));
+            else
+                background.setColor(ContextCompat.getColor(context, R.color.failed));
+        }
+        holder.projectGrade.setBackground(background);
+
         /*
         holder.projectName.setText(project.);
         holder.textViewMessage.setText(smsModel.getMessage());

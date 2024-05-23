@@ -91,6 +91,9 @@ public class UserInfoResponse {
         @SerializedName("final_mark")
         private String final_mark;
 
+        @SerializedName("validated?")
+        private String validated;
+
         @SerializedName("project")
         private Project project;
         public static class Project implements Serializable{
@@ -106,6 +109,10 @@ public class UserInfoResponse {
         }
         public String getFinal_mark() {
             return final_mark;
+        }
+
+        public String getValidated() {
+            return validated;
         }
         public Project getProject() {
             return project;
