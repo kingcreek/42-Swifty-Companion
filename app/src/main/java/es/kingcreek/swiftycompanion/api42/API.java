@@ -66,18 +66,15 @@ public class API {
                     AccessTokenResponse tokenResponse = response.body();
                     if (tokenResponse != null) {
                         String accessToken = tokenResponse.getAccessToken();
-                        // Notify the listener that the login was successful
                         if (listener != null) {
                             listener.onLoginSuccess(accessToken);
                         }
                     } else {
-                        // Handle null response
                         if (listener != null) {
                             listener.onLoginFailure("Login failed with null response");
                         }
                     }
                 } else {
-                    // Handle unsuccessful response
                     if (listener != null) {
                         listener.onLoginFailure("Login failed with unsuccessful response");
                     }
@@ -86,7 +83,6 @@ public class API {
 
             @Override
             public void onFailure(Call<AccessTokenResponse> call, Throwable t) {
-                // Handle network error
                 if (listener != null) {
                     listener.onLoginFailure("Login failed with network error: " + t.getMessage());
                 }
@@ -103,18 +99,15 @@ public class API {
                 if (response.isSuccessful()) {
                     UserInfoResponse userInfoResponse = response.body();
                     if (userInfoResponse != null) {
-                        // Notificar al listener que la obtención de información fue exitosa
                         if (listener != null) {
                             listener.onUserInfoSuccess(userInfoResponse);
                         }
                     } else {
-                        // Manejar respuesta nula
                         if (listener != null) {
                             listener.onUserInfoFailure("getUserInfo failed with null response");
                         }
                     }
                 } else {
-                    // Manejar respuesta no exitosa
                     if (listener != null) {
                         listener.onUserInfoFailure("getUserInfo failed with response code: " + response.code());
                     }
@@ -123,9 +116,8 @@ public class API {
 
             @Override
             public void onFailure(Call<UserInfoResponse> call, Throwable t) {
-                // Manejar error de red
                 if (listener != null) {
-                    listener.onUserInfoFailure("getUserInfo failed with network error: " + t.getMessage());
+                    listener.onUserInfoFailureNetwork("getUserInfo failed with network error: " + t.getMessage());
                 }
             }
         });
@@ -140,18 +132,15 @@ public class API {
                 if (response.isSuccessful()) {
                     List<CoalitionsResponse> coalitionsResponse = response.body();
                     if (coalitionsResponse != null) {
-                        // Notificar al listener que la obtención de información fue exitosa
                         if (listener != null) {
                             listener.onCoalitionInfoSuccess(coalitionsResponse);
                         }
                     } else {
-                        // Manejar respuesta nula
                         if (listener != null) {
                             listener.onCoalitionInfoFailure("getUserInfo failed with null response");
                         }
                     }
                 } else {
-                    // Manejar respuesta no exitosa
                     if (listener != null) {
                         listener.onCoalitionInfoFailure("getUserInfo failed with response code: " + response.code());
                     }

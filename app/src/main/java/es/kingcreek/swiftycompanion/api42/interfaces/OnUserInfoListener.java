@@ -8,4 +8,6 @@ public interface OnUserInfoListener {
 
     void onUserInfoFailure(String errorMessage);
 
+    void onUserInfoFailureNetwork(String errorMessage);
+
 }

@@ -1,7 +1,9 @@
 package es.kingcreek.swiftycompanion.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import android.app.Activity;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.PieChart;
@@ -23,6 +26,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +60,12 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
 
     ArrayList<UserInfoResponse.Projects> projects = new ArrayList<>();
 
+    // Parent Views
+    AppBarLayout viewAppBar;
+    NestedScrollView scrollView;
+    ConstraintLayout constraintRefresh;
+    Button refresh;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +73,16 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
 
         api = API.getInstance(this);
         preferences = PreferencesManager.getInstance(this);
+
+        // Parent views
+        viewAppBar        = findViewById(R.id.viewAppBar);
+        scrollView        = findViewById(R.id.scrollView);
+        refresh           = findViewById(R.id.refresh);
+        constraintRefresh = findViewById(R.id.refreshView);
+
+        constraintRefresh.setVisibility(View.GONE);
+        viewAppBar.setVisibility(View.GONE);
+        scrollView.setVisibility(View.GONE);
 
         //views
         coalitionImage      = findViewById(R.id.coalitionImage);
@@ -87,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
             startActivity(intent);
             finish();
         } else {
-            Log.e(TAG, preferences.getAccessToken());
             api.getUserInfo(preferences.getAccessToken(), this);
         }
 
@@ -100,11 +119,14 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
         });
 
         setExpiredToken.setOnClickListener(view -> {
-            // Expired token: bc6c035becef935eaecdc03e63a1f3fa51dec3649b899351f89bfb42be2694b9
             // During evaluation can set this token to prove bonus part; refresh expired token
             preferences.setAccessToken("bc6c035becef935eaecdc03e63a1f3fa51dec3649b899351f89bfb42be2694b9");
             finish();
-            //Log.e(TAG, preferences.getAccessToken());
+        });
+
+        refresh.setOnClickListener(view -> {
+            api.getUserInfo(preferences.getAccessToken(), this);
+            constraintRefresh.setVisibility(View.GONE);
         });
 
     }
@@ -128,8 +150,19 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
         //getUserInfo(accessToken, listener, retryCount - 1);
     }
 
+    @Override
+    public void onUserInfoFailureNetwork(String errorMessage) {
+        Toast.makeText(getApplicationContext(), "Verify your internet connection.", Toast.LENGTH_LONG).show();
+        constraintRefresh.setVisibility(View.VISIBLE);
+        viewAppBar.setVisibility(View.GONE);
+        scrollView.setVisibility(View.GONE);
+    }
     private void populateUserData(UserInfoResponse user)
     {
+        constraintRefresh.setVisibility(View.GONE);
+        viewAppBar.setVisibility(View.VISIBLE);
+        scrollView.setVisibility(View.VISIBLE);
+
         // First of all, request coallitions
         api.getCoalitions(preferences.getAccessToken(), String.valueOf(user.getUserId()), this);
 
