@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
     CustomProgressBar customProgressBar;
     TextView loginTextView, altariansTextView, pointsTextView, emailTextview, locationTextView;
     PieChart pieChart;
-    Button seeProjectsButton, setExpiredToken;
+    Button seeProjectsButton, setExpiredToken, logout;
 
     ArrayList<UserInfoResponse.Projects> projects = new ArrayList<>();
 
@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
         pieChart            = findViewById(R.id.pieChart);
         seeProjectsButton   = findViewById(R.id.seeProjectsButton);
         setExpiredToken     = findViewById(R.id.setExpiredToken);
+        logout              = findViewById(R.id.logout);
 
         //default views
         coalitionImage.setVisibility(View.GONE);
@@ -129,6 +130,14 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
             constraintRefresh.setVisibility(View.GONE);
         });
 
+        logout.setOnClickListener(view -> {
+            preferences.setAccessToken(null);
+            //preferences.setAutorizationCode(null);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            //intent.putExtra("newLogin", true);
+            startActivity(intent);
+            //finish();
+        });
     }
 
     @Override

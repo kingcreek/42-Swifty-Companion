@@ -162,7 +162,7 @@
                         android:id="@+id/emailTextview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="levelTextView"
+                        android:text="emailTextView"
                         android:padding="16dp"
                         android:singleLine="true"
                         android:ellipsize="marquee"
@@ -189,22 +189,35 @@
             </GridLayout>
 
             <Button
-                android:id="@+id/setExpiredToken"
-                android:layout_width="wrap_content"
+                android:id="@+id/logout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
+                android:layout_margin="2dp"
+                android:text="Logout"
+                app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/setExpiredToken" />
+
+            <Button
+                android:id="@+id/setExpiredToken"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
                 android:text="Set Expired Token"
                 app:layout_constraintTop_toBottomOf="@+id/gridLayout"
-                app:layout_constraintEnd_toStartOf="@+id/guidelineCenter" />
+                app:layout_constraintStart_toEndOf="@+id/logout"
+                app:layout_constraintEnd_toStartOf="@+id/seeProjectsButton" />
 
             <Button
                 android:id="@+id/seeProjectsButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_margin="2dp"
                 android:text="See Projects"
                 app:layout_constraintTop_toBottomOf="@+id/gridLayout"
-                app:layout_constraintStart_toEndOf="@+id/guidelineCenter" />
+                app:layout_constraintStart_toEndOf="@+id/setExpiredToken"
+                app:layout_constraintEnd_toEndOf="parent" />
+
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineCenter"
