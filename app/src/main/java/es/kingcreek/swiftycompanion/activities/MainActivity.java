@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements OnUserInfoListene
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             //intent.putExtra("newLogin", true);
             startActivity(intent);
-            //finish();
+            finish();
         });
     }
 
